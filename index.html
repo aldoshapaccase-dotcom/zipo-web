@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zipo</title>
+<meta name="description" content="Zipo — mensajería que conecta a usuarios de EggsWeb y de Ping.">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="blue">
+
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="orb orb3"></div>
+
+<!-- ============================================================
+     PANTALLA DE LOGIN / REGISTRO
+     ============================================================ -->
+<div class="auth-screen" id="authScreen">
+  <div class="login-theme-picker" id="loginThemePicker">
+    <div class="theme-dot active" data-t="blue" title="Azul Aero"></div>
+    <div class="theme-dot" data-t="lime" title="Verde Lima"></div>
+    <div class="theme-dot" data-t="purple" title="Violeta"></div>
+    <div class="theme-dot" data-t="orange" title="Naranja"></div>
+    <div class="theme-dot" data-t="graphite" title="Grafito"></div>
+  </div>
+
+  <div class="auth-card">
+    <div class="auth-top">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></div>
+      <div class="brand-name">Zipo</div>
+    </div>
+
+    <div class="auth-tabs">
+      <div class="auth-tab active" data-mode="login">Iniciar sesión</div>
+      <div class="auth-tab" data-mode="signup">Crear cuenta</div>
+    </div>
+
+    <div class="auth-body">
+      <div class="auth-error" id="authError"></div>
+
+      <!-- Solo visible en modo registro -->
+      <div class="field-group" id="usernameField" style="display:none;">
+        <label class="field-label">Nombre de usuario</label>
+        <input class="auth-input" type="text" id="authUsername" placeholder="p.ej. martasolis" autocomplete="off">
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Correo electrónico</label>
+        <input class="auth-input" type="email" id="authEmail" placeholder="tú@correo.com">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Contraseña</label>
+        <input class="auth-input" type="password" id="authPassword" placeholder="••••••••">
+      </div>
+
+      <!-- Solo visible en modo registro -->
+      <div class="field-group" id="platformField" style="display:none;">
+        <label class="field-label">¿De qué plataforma eres?</label>
+        <div class="platform-select">
+          <div class="platform-option" data-p="eggsweb">
+            <div class="p-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8 2 5 6 5 10c0 5 4 9 7 12 3-3 7-7 7-12 0-4-3-8-7-8z"/></svg></div>
+            <div class="p-label">EggsWeb</div>
+          </div>
+          <div class="platform-option" data-p="ping">
+            <div class="p-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/></svg></div>
+            <div class="p-label">Ping</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="auth-submit" id="authSubmit">Entrar</button>
+      <div class="auth-hint" id="authHint">¿No tienes cuenta? Créala arriba.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     APP
+     ============================================================ -->
+<div class="app-screen" id="appScreen">
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M4 4h16a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H10l-5 4v-4H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg></div>
+      <div class="brand-name">Zipo</div>
+    </div>
+
+    <nav class="site-nav">
+      <a href="#" class="nav-link current" data-view="messages">Mensajes</a>
+      <a href="#" class="nav-link" data-view="contacts">Contactos</a>
+      <a href="#" class="nav-link" data-view="groups">Grupos</a>
+      <a href="#" class="nav-link" data-view="settings">Ajustes</a>
+    </nav>
+
+    <div class="header-spacer"></div>
+
+    <div class="theme-picker" id="themePicker">
+      <div class="theme-dot active" data-t="blue" title="Azul Aero"></div>
+      <div class="theme-dot" data-t="lime" title="Verde Lima"></div>
+      <div class="theme-dot" data-t="purple" title="Violeta"></div>
+      <div class="theme-dot" data-t="orange" title="Naranja"></div>
+      <div class="theme-dot" data-t="graphite" title="Grafito"></div>
+    </div>
+
+    <div class="profile-chip" id="profileChip" title="Cerrar sesión">
+      <div id="profileAvatarHolder">
+        <div class="avatar" id="profileAvatar" style="background:linear-gradient(180deg,#3e9be8,#3e9be8bb)">TU</div>
+      </div>
+      <div class="name" id="profileName">Tú</div>
+      <div class="plat-badge" id="profileBadge"></div>
+    </div>
+  </header>
+
+  <!-- ===== VISTA: MENSAJES ===== -->
+  <div class="page-body view-section" id="view-messages">
+    <div class="sidebar">
+      <div class="search-wrap">
+        <input class="search" type="text" id="filterConversations" placeholder="Filtrar conversaciones...">
+      </div>
+      <div class="sidebar-label">Conversaciones</div>
+      <div class="contacts" id="contacts">
+        <div class="empty-state" id="conversationsEmpty">Aún no tienes conversaciones. Ve a "Contactos" para buscar a alguien por su usuario.</div>
+      </div>
+    </div>
+
+    <div class="chat">
+      <div class="chat-header" id="chatHeader">
+        <div class="chat-placeholder">Elige una conversación o busca a alguien en "Contactos".</div>
+      </div>
+      <div class="messages" id="messages"></div>
+      <div class="composer">
+        <input type="text" id="msgInput" placeholder="Escribe un mensaje..." disabled>
+        <button class="send-btn" id="sendBtn" title="Enviar" disabled>
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VISTA: CONTACTOS (buscar por username) ===== -->
+  <div class="view-section view-panel" id="view-contacts" style="display:none;">
+    <div class="panel-card">
+      <h2 class="panel-title">Buscar contactos</h2>
+      <p class="panel-sub">Encuentra a cualquier persona registrada en Zipo por su nombre de usuario — sea de EggsWeb, de Ping, o nativa de aquí.</p>
+      <input class="auth-input" type="text" id="userSearchInput" placeholder="Buscar por username, ej: martasolis">
+      <div class="search-results" id="userSearchResults"></div>
+    </div>
+  </div>
+
+  <!-- ===== VISTA: GRUPOS ===== -->
+  <div class="view-section view-panel" id="view-groups" style="display:none;">
+    <div class="panel-card panel-center">
+      <div class="panel-icon">👥</div>
+      <h2 class="panel-title">Grupos</h2>
+      <p class="panel-sub">Los chats grupales todavía no están disponibles — están en camino. Por ahora puedes hablar de uno en uno desde "Contactos".</p>
+    </div>
+  </div>
+
+  <!-- ===== VISTA: AJUSTES ===== -->
+  <div class="view-section view-panel" id="view-settings" style="display:none;">
+    <div class="panel-card">
+      <h2 class="panel-title">Ajustes</h2>
+
+      <div class="settings-profile">
+        <div class="avatar-upload-wrap">
+          <div id="settingsAvatarHolder">
+            <div class="avatar" id="settingsAvatar" style="width:52px;height:52px;font-size:18px;">TU</div>
+          </div>
+          <label for="avatarFileInput" class="avatar-edit-btn" title="Cambiar foto">✎</label>
+          <input type="file" id="avatarFileInput" accept="image/png, image/jpeg, image/webp" style="display:none;">
+        </div>
+        <div>
+          <div class="settings-name" id="settingsName">—</div>
+          <div class="settings-username" id="settingsUsername">—</div>
+          <span class="plat-tag" id="settingsPlatformTag"></span>
+        </div>
+      </div>
+      <div class="avatar-upload-status" id="avatarUploadStatus"></div>
+
+      <div class="settings-row">
+        <span>Tema visual</span>
+        <div class="theme-picker settings-theme-picker" id="settingsThemePicker">
+          <div class="theme-dot active" data-t="blue"></div>
+          <div class="theme-dot" data-t="lime"></div>
+          <div class="theme-dot" data-t="purple"></div>
+          <div class="theme-dot" data-t="orange"></div>
+          <div class="theme-dot" data-t="graphite"></div>
+        </div>
+      </div>
+
+      <button class="auth-submit" id="settingsLogout" style="margin-top:18px; background:linear-gradient(180deg,#f08a8a,#c0392b);">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
+
+  <!-- ===== LLAMADA ENTRANTE ===== -->
+  <div class="call-overlay" id="incomingCallOverlay" style="display:none;">
+    <div class="call-card">
+      <div class="call-ringing-dot"></div>
+      <div id="incomingCallAvatarHolder" style="margin:0 auto 14px;width:76px;">
+        <div class="avatar" id="incomingCallAvatar" style="width:76px;height:76px;font-size:26px;"></div>
+      </div>
+      <div class="call-name" id="incomingCallName">—</div>
+      <div class="call-sub" id="incomingCallSub">te está llamando...</div>
+      <div class="call-actions">
+        <button class="call-action decline" id="declineCallBtn" title="Rechazar">✕</button>
+        <button class="call-action accept" id="acceptCallBtn" title="Aceptar">✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LLAMADA ACTIVA ===== -->
+  <div class="call-overlay call-active" id="activeCallOverlay" style="display:none;">
+    <div class="call-active-top">
+      <div id="activeCallAvatarHolder">
+        <div class="avatar" id="activeCallAvatar" style="width:56px;height:56px;font-size:20px;"></div>
+      </div>
+      <div>
+        <div class="call-name" id="activeCallName" style="font-size:16px;">—</div>
+        <div class="call-sub" id="activeCallStatus">Llamando...</div>
+      </div>
+    </div>
+
+    <div class="call-video-stage" id="callVideoStage">
+      <video id="remoteVideo" autoplay playsinline></video>
+      <video id="localVideo" autoplay playsinline muted></video>
+      <div class="call-audio-only" id="callAudioOnlyIcon">🎙️</div>
+    </div>
+
+    <div class="call-controls">
+      <button class="call-ctrl" id="toggleMicBtn" title="Silenciar">🎤</button>
+      <button class="call-ctrl" id="toggleCamBtn" title="Cámara">📷</button>
+      <button class="call-ctrl end" id="hangupBtn" title="Colgar">☎</button>
+    </div>
+  </div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
