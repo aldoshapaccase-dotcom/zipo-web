@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#5ab4f5;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#1a6fc4;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient id="gloss" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.55"/>
+      <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0.0"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#0066cc" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <!-- Fondo con gradiente azul aero -->
+  <rect width="32" height="32" rx="8" fill="url(#bg)" filter="url(#shadow)"/>
+  <!-- Brillo aero superior -->
+  <rect width="32" height="16" rx="8" fill="url(#gloss)"/>
+  <rect y="8" width="32" height="8" fill="url(#gloss)"/>
+  <!-- Burbuja de chat -->
+  <path d="M6 7h20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H13l-6 4v-4H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z" fill="white" opacity="0.95"/>
+</svg>
